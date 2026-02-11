@@ -103,7 +103,7 @@ public class Blue18Leave extends CommandOpMode {
 
         Path3 = follower.pathBuilder().addPath(
                         new BezierCurve(
-                                new Pose(21.155, 59.180),
+                                new Pose(22.155, 59.180),
                                 new Pose(45.977, 57.388),
                                 new Pose(55.516, 87.846)
                         )
