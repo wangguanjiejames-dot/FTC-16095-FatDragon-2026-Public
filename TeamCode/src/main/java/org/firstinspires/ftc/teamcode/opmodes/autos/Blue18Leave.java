@@ -41,7 +41,7 @@ public class Blue18Leave extends CommandOpMode {
     private Transit transit;
     private Turret turret;
     private Vision vision;
-    private Led led;
+    //private Led led;
     private Drive.Alliance alliance;
 
     public PathChain Path1, Path2, Path3, Path4, Path5, Path6, Path7, Path8, Path9, Path10, Path11, Path12, Path13, Path14;
@@ -49,8 +49,8 @@ public class Blue18Leave extends CommandOpMode {
     public Command transitShootCommand() {
         return new SequentialCommandGroup(
                 new TransitCommand(shooter, transit, intake),
-                new InstantCommand(() -> intake.setIntakeState(Intake.IntakeState.STOP)),
-                new ConditionalCommand(new LedWinkCommand(led), new InstantCommand(), () -> vision.autoCalibrate(follower, turret))
+                new InstantCommand(() -> intake.setIntakeState(Intake.IntakeState.STOP))
+                //new ConditionalCommand(new LedWinkCommand(led), new InstantCommand(), () -> vision.autoCalibrate(follower, turret))
         );
     }
 
@@ -76,7 +76,7 @@ public class Blue18Leave extends CommandOpMode {
         this.transit = new Transit(hardwareMap, false);
         this.turret = new Turret(hardwareMap);
         this.vision = new Vision(hardwareMap);
-        this.led = new Led(hardwareMap);
+        //this.led = new Led(hardwareMap);
         this.alliance = Drive.Alliance.BLUE;
 
         follower.setStartingPose(new Pose(31.493, 135.917, Math.toRadians(270)));

@@ -5,9 +5,9 @@ import org.firstinspires.ftc.teamcode.utils.Units;
 public class TurretConstants {
     public static String turretMotorName = "turretMotor";
     public static double initPos = 0.0;
-    public static double kP = 0.0005;
-    public static double kI = 0.03;
-    public static double kD = 0.000025;
+    public static double kP = 0.001;
+    public static double kI = 0;
+    public static double kD = 0.00001;
     public static double kF = 0;
 //    public static double kPMoving = 0.001;
 //    public static double kIMoving = 0.05;

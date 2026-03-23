@@ -21,15 +21,15 @@ public class DriveConstants {
 
     public static double xPoseDW = Units.mmToInches(-93.45), yPoseDW = Units.mmToInches(24.05);
 
-    public static double strafingBalance = 1;
+    public static double strafingBalance = 1.1;
     public static DistanceUnit distanceUnit = DistanceUnit.INCH;
     public static AngleUnit angleUnit = AngleUnit.RADIANS;
 
-    public static double forwardVelocity = 81.663, strafeVelocity = 63.959;
-    public static double forwardAcceleration = -31.129, strafeAcceleration = -55.733;
+    public static double forwardVelocity = 83.585, strafeVelocity = 64.906;
+    public static double forwardAcceleration = -29.424, strafeAcceleration = -60.009;
 
-    public static double kP_brakeXY = 0.02;
-    public static double kP_brakeH = -0.8;
+    public static double kP_brakeXY = 0.05;
+    public static double kP_brakeH = 0.8;
     public static double epsilonStopXY = 10;
     public static double epsilonStopH = 0.5;
     public static double speedLimit = 0.8;

@@ -13,8 +13,8 @@ public class Transit extends SubsystemBase {
     public Transit(HardwareMap hardwareMap, boolean isTeleop) {
         limitServo = hardwareMap.get(Servo.class, TransitConstants.limitServoName);
         this.transitServo = hardwareMap.get(Servo.class, TransitConstants.transitServoName);
-        if (isTeleop) transitState = TransitState.CLOSE;
-        else transitState = TransitState.OPEN;
+        if (isTeleop) transitState = TransitState.OPEN;
+        else transitState = TransitState.CLOSE;
     }
 
     public static enum TransitState {
