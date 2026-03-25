@@ -47,7 +47,7 @@ public class Vision extends SubsystemBase {
     public boolean calibrate(Drive drive, Turret turret) {
         Pose2D pose = getVisionPose();
         if (pose.getX(distanceUnit) < -1e5) return false;
-        drive.setPose(pose);
+        drive.setPose(Util.turretToDrivePose(pose, turret));
         drive.setYawOffset(drive.getAlliance() == Drive.Alliance.BLUE ? Math.PI : 0);
         drive.setAligned(true);
         return true;
