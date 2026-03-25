@@ -144,7 +144,7 @@ public abstract class TeleOpBase extends CommandOpMode {
     public void run() {
         killing = gamepadEx1.getButton(GamepadKeys.Button.RIGHT_STICK_BUTTON) || killing;
         CommandScheduler.getInstance().run();
-        if (timer.milliseconds() - lastTime > 500 && !killing) {
+        if (timer.milliseconds() - lastTime > 500 && !killing && !drive.getAligned()) {
             aligning = vision.calibrate(drive, turret);
             lastTime = timer.milliseconds();
         }

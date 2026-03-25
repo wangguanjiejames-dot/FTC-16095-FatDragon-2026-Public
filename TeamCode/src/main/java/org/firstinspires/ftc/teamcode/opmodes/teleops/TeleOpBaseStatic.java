@@ -151,7 +151,7 @@ public abstract class TeleOpBaseStatic extends CommandOpMode {
     @Override
     public void run() {
         CommandScheduler.getInstance().run();
-        if (timer.milliseconds() - lastTime > 500 && !killed) {
+        if (timer.milliseconds() - lastTime > 500 && !killed && !drive.getAligned()) {
             aligning = vision.calibrate(drive, turret);
             lastTime = timer.milliseconds();
         }
