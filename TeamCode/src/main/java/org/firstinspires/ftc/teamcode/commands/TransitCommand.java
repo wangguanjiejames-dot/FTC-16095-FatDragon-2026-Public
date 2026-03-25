@@ -13,7 +13,7 @@ public class TransitCommand extends CommandBase {
     private final Intake intake;
     private boolean hasOpened;
     private final ElapsedTime openTimer;
-    private static double delay = 600;
+    private static double delay = 700;
 
     public TransitCommand(Shooter shooter, Transit transit, Intake intake) {
         this.shooter = shooter;
@@ -51,5 +51,10 @@ public class TransitCommand extends CommandBase {
     @Override
     public boolean isFinished() {
         return hasOpened && openTimer.milliseconds() > delay;
+    }
+
+    @Override
+    public void end(boolean interrupted) {
+        transit.setState(Transit.TransitState.CLOSE);
     }
 }
