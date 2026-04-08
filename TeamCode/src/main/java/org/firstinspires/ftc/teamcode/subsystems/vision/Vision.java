@@ -17,6 +17,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.Pose2D;
 import org.firstinspires.ftc.robotcore.external.navigation.Pose3D;
 import org.firstinspires.ftc.teamcode.subsystems.drive.Drive;
 import org.firstinspires.ftc.teamcode.subsystems.drive.DriveConstants;
+import org.firstinspires.ftc.teamcode.subsystems.led.Led;
 import org.firstinspires.ftc.teamcode.subsystems.turret.Turret;
 import org.firstinspires.ftc.teamcode.utils.Util;
 
@@ -44,12 +45,13 @@ public class Vision extends SubsystemBase {
         return Util.visionPoseToDWPose(fiducialResult.getRobotPoseFieldSpace());
     }
 
-    public boolean calibrate(Drive drive, Turret turret) {
+    public boolean calibrate(Drive drive, Turret turret, Led led) {
         Pose2D pose = getVisionPose();
         if (pose.getX(distanceUnit) < -1e5) return false;
         drive.setPose(Util.turretToDrivePose(pose, turret));
         drive.setYawOffset(drive.getAlliance() == Drive.Alliance.BLUE ? Math.PI : 0);
         drive.setAligned(true);
+        led.setAligned(true);
         return true;
     }
 

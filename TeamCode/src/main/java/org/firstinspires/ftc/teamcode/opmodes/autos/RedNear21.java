@@ -49,8 +49,8 @@ public class RedNear21 extends CommandOpMode {
     public Command transitShootCommand() {
         return new SequentialCommandGroup(
                 new TransitCommand(shooter, transit, intake),
-                new InstantCommand(() -> intake.setIntakeState(Intake.IntakeState.STOP)),
-                new ConditionalCommand(new LedWinkCommand(led), new InstantCommand(), () -> vision.autoCalibrate(follower, turret))
+                new InstantCommand(() -> intake.setIntakeState(Intake.IntakeState.STOP))
+                // new ConditionalCommand(new LedWinkCommand(led), new InstantCommand(), () -> vision.autoCalibrate(follower, turret))
         );
     }
 
@@ -78,6 +78,8 @@ public class RedNear21 extends CommandOpMode {
         this.vision = new Vision(hardwareMap);
         this.led = new Led(hardwareMap);
         this.alliance = Drive.Alliance.RED;
+        led.setDefaultCommand(new LedWinkCommand(led, shooter, transit, turret, alliance));
+
 
         follower.setStartingPose(new Pose(112.108, 135.917, Math.toRadians(-90)));
 

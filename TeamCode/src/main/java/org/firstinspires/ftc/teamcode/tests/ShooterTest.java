@@ -16,12 +16,14 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.Range;
 
 @Config
 @TeleOp(name = "Shooter Test")
 public class ShooterTest extends OpMode {
-    DcMotorEx rightMotor, leftMotor;
+    DcMotorEx rightMotor, leftMotor, intakeMotor;
+    Servo transitServo;
     PIDFController pidfController;
     FtcDashboard dashboard;
     
@@ -32,6 +34,8 @@ public class ShooterTest extends OpMode {
     public void init() {
         rightMotor = hardwareMap.get(DcMotorEx.class, "rightShooterMotor");
         leftMotor = hardwareMap.get(DcMotorEx.class, "leftShooterMotor");
+        intakeMotor = hardwareMap.get(DcMotorEx.class, "intakeMotor");
+        transitServo = hardwareMap.get(Servo.class, "transitServo");
 
         // 两个电机都用开环模式，我们自己做 PID
         rightMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
@@ -49,6 +53,8 @@ public class ShooterTest extends OpMode {
     @Override
     public void loop() {
         // 实时更新 PIDF 参数（方便通过 Dashboard 调参）
+        intakeMotor.setPower(-0.9);
+        transitServo.setPosition(0.36);
         pidfController.setPIDF(p, i, d, f);
 
         // 用右扳机控制目标速度 (0 ~ fastVelocity)

@@ -53,8 +53,8 @@ public class RedFar extends CommandOpMode {
                                 .andThen(new WaitCommand(200))
                                 .andThen(new ShootCommand(intake, shooter))
                 ),
-                new InstantCommand(() -> intake.setIntakeState(Intake.IntakeState.STOP)),
-                new ConditionalCommand(new LedWinkCommand(led), new InstantCommand(), () -> vision.autoCalibrate(follower, turret))
+                new InstantCommand(() -> intake.setIntakeState(Intake.IntakeState.STOP))
+               // new ConditionalCommand(new LedWinkCommand(led, ), new InstantCommand(), () -> vision.autoCalibrate(follower, turret))
         );
     }
 
@@ -86,6 +86,8 @@ public class RedFar extends CommandOpMode {
         this.vision = new Vision(hardwareMap);
         this.alliance = Drive.Alliance.RED;
         this.led = new Led(hardwareMap);
+        led.setDefaultCommand(new LedWinkCommand(led, shooter, transit, turret, alliance));
+
 
         follower.setStartingPose(new Pose(88.211, 7.527, Math.toRadians(0)));
 

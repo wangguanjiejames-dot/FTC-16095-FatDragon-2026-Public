@@ -35,6 +35,10 @@ public class Turret extends SubsystemBase {
         TurretState() {}
     }
 
+    public TurretState getTurretState() {
+        return turretState;
+    }
+
     public boolean isAligned() {
         return Util.epsilonEqual(getTurretPos()
                 , ticksSetpoint, TurretConstants.alignEpsilon);

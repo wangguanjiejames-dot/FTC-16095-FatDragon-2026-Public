@@ -24,6 +24,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.Pose2D;
 import org.firstinspires.ftc.robotcore.external.navigation.UnnormalizedAngleUnit;
 import org.firstinspires.ftc.teamcode.commands.IntakeCommand;
 import org.firstinspires.ftc.teamcode.commands.DriveCommand;
+import org.firstinspires.ftc.teamcode.commands.LedWinkCommand;
 import org.firstinspires.ftc.teamcode.commands.ShootCommand;
 import org.firstinspires.ftc.teamcode.commands.ShooterAlignCommand;
 import org.firstinspires.ftc.teamcode.commands.ShooterAlignCommandStatic;
@@ -52,6 +53,7 @@ public abstract class TeleOpBaseStatic extends CommandOpMode {
     public Intake intake;
     public Turret turret;
     public Vision vision;
+    public Led led;
     public ElapsedTime timer;
     public boolean aligning = false;
     public double lastTime = 0;
@@ -69,6 +71,7 @@ public abstract class TeleOpBaseStatic extends CommandOpMode {
         timer = new ElapsedTime();
         turret = new Turret(hardwareMap);
         vision = new Vision(hardwareMap);
+        led = new Led(hardwareMap);
         timer.reset();
 
         new FunctionalButton(
@@ -80,6 +83,7 @@ public abstract class TeleOpBaseStatic extends CommandOpMode {
         drive.setDefaultCommand(new DriveCommand(drive, gamepadEx1));
         turret.setDefaultCommand(new TurretAlignCommandStatic(drive, turret, getAlliance(), vision, () -> killed));
         shooter.setDefaultCommand(new ShooterAlignCommandStatic(drive, shooter, transit, getAlliance(), () -> killed));
+        led.setDefaultCommand(new LedWinkCommand(led, shooter, transit, turret, getAlliance()));
 
         new FunctionalButton(
                 () -> gamepadEx1.getButton(GamepadKeys.Button.LEFT_STICK_BUTTON)
@@ -151,11 +155,10 @@ public abstract class TeleOpBaseStatic extends CommandOpMode {
     @Override
     public void run() {
         CommandScheduler.getInstance().run();
-        if (timer.milliseconds() - lastTime > 500 && !killed) {
-            aligning = vision.calibrate(drive, turret);
+        if (timer.milliseconds() - lastTime > 400 && !killed) {
+            aligning = vision.calibrate(drive, turret, led);
             lastTime = timer.milliseconds();
         }
-
 
         telemetry.addLine("----- Drive -----");
         telemetry.addData("Drive X: ", drive.getPose().getX(distanceUnit));
