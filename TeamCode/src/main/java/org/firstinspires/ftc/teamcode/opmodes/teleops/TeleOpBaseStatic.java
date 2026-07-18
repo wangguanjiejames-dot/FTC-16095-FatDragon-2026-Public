@@ -35,6 +35,7 @@ import org.firstinspires.ftc.teamcode.subsystems.drive.Drive;
 import org.firstinspires.ftc.teamcode.subsystems.intake.Intake;
 import org.firstinspires.ftc.teamcode.subsystems.led.Led;
 import org.firstinspires.ftc.teamcode.subsystems.shooter.Shooter;
+import org.firstinspires.ftc.teamcode.subsystems.shooter.ShooterConstants;
 import org.firstinspires.ftc.teamcode.subsystems.transit.Transit;
 import org.firstinspires.ftc.teamcode.subsystems.turret.Turret;
 import org.firstinspires.ftc.teamcode.subsystems.vision.Vision;
@@ -149,6 +150,11 @@ public abstract class TeleOpBaseStatic extends CommandOpMode {
                 () -> gamepadEx1.getButton(GamepadKeys.Button.RIGHT_STICK_BUTTON)
         ).whenPressed(
                 new InstantCommand(() -> killed = !killed)
+        );
+        new FunctionalButton(
+                () -> gamepadEx1.getButton(GamepadKeys.Button.DPAD_UP)
+        ).whenPressed(
+                new InstantCommand(() -> shooter.setPitchState(Shooter.PitchState.CLIMB))
         );
     }
 

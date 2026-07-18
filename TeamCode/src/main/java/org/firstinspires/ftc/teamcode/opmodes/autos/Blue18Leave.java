@@ -3,31 +3,26 @@ package org.firstinspires.ftc.teamcode.opmodes.autos;
 import com.arcrobotics.ftclib.command.Command;
 import com.arcrobotics.ftclib.command.CommandOpMode;
 import com.arcrobotics.ftclib.command.CommandScheduler;
-import com.arcrobotics.ftclib.command.ConditionalCommand;
 import com.arcrobotics.ftclib.command.InstantCommand;
 import com.arcrobotics.ftclib.command.ParallelCommandGroup;
 import com.arcrobotics.ftclib.command.ParallelDeadlineGroup;
-import com.arcrobotics.ftclib.command.ParallelRaceGroup;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 import com.arcrobotics.ftclib.command.WaitCommand;
 import com.pedropathing.follower.Follower;
 import com.pedropathing.geometry.BezierCurve;
 import com.pedropathing.geometry.BezierLine;
 import com.pedropathing.geometry.Pose;
-import com.pedropathing.paths.Path;
 import com.pedropathing.paths.PathChain;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
 import org.firstinspires.ftc.teamcode.commands.AutoDriveCommand;
 import org.firstinspires.ftc.teamcode.commands.IntakeCommand;
-import org.firstinspires.ftc.teamcode.commands.LedWinkCommand;
 import org.firstinspires.ftc.teamcode.commands.ShooterAlignCommand;
 import org.firstinspires.ftc.teamcode.commands.TransitCommand;
 import org.firstinspires.ftc.teamcode.commands.TurretAlignCommand;
 import org.firstinspires.ftc.teamcode.subsystems.drive.Constants;
 import org.firstinspires.ftc.teamcode.subsystems.drive.Drive;
 import org.firstinspires.ftc.teamcode.subsystems.intake.Intake;
-import org.firstinspires.ftc.teamcode.subsystems.led.Led;
 import org.firstinspires.ftc.teamcode.subsystems.shooter.Shooter;
 import org.firstinspires.ftc.teamcode.subsystems.transit.Transit;
 import org.firstinspires.ftc.teamcode.subsystems.turret.Turret;
@@ -41,29 +36,51 @@ public class Blue18Leave extends CommandOpMode {
     private Transit transit;
     private Turret turret;
     private Vision vision;
-    //private Led led;
     private Drive.Alliance alliance;
+    private static final String AUTO_BUILD = "Blue18LeaveNew-P5-Debug-20260718";
+    private Command autoCommand;
+    private String autoStep = "Initializing";
+    private long autoLoopCount;
 
-    public PathChain Path1, Path2, Path3, Path4, Path5, Path6, Path7, Path8, Path9, Path10, Path11, Path12, Path13, Path14;
+    public PathChain Path1, Path2, Path3, Path4, Path5, Path6, Path7, Path8, Path9, Path10, Path11, Path12, Path13;
 
-    public Command transitShootCommand() {
-        return new SequentialCommandGroup(
-                new TransitCommand(shooter, transit, intake),
-                new InstantCommand(() -> intake.setIntakeState(Intake.IntakeState.STOP))
-                //new ConditionalCommand(new LedWinkCommand(led), new InstantCommand(), () -> vision.autoCalibrate(follower, turret))
-        );
+    private Command shootFor(long milliseconds) {
+        return new ParallelDeadlineGroup(
+                new WaitCommand(milliseconds),
+                new TransitCommand(shooter, transit, intake)
+        ).andThen(new InstantCommand(() -> intake.setIntakeState(Intake.IntakeState.STOP)));
     }
 
-    public Command intakeTrajCommand(PathChain path) {
-        return new ParallelRaceGroup(
+    private Command intakeDuringPath(PathChain path) {
+        return new ParallelDeadlineGroup(
                 new AutoDriveCommand(follower, path),
                 new IntakeCommand(intake, transit)
         ).andThen(new InstantCommand(() -> intake.setIntakeState(Intake.IntakeState.STOP)));
     }
 
-    public Command intakeTimedCommand(PathChain path, double time) {
-        return new ParallelRaceGroup(
-                new AutoDriveCommand(follower, path, time),
+    private Command intakeDuringPathAndWait(PathChain path, long waitMs) {
+        return new ParallelDeadlineGroup(
+                new SequentialCommandGroup(
+                        new AutoDriveCommand(follower, path),
+                        new WaitCommand(waitMs)
+                ),
+                new IntakeCommand(intake, transit)
+        ).andThen(new InstantCommand(() -> intake.setIntakeState(Intake.IntakeState.STOP)));
+    }
+
+    private Command intakeDuringTimedPath(PathChain path, double driveTimeout) {
+        return new ParallelDeadlineGroup(
+                new AutoDriveCommand(follower, path, driveTimeout),
+                new IntakeCommand(intake, transit)
+        ).andThen(new InstantCommand(() -> intake.setIntakeState(Intake.IntakeState.STOP)));
+    }
+
+    private Command intakeDuringTimedPathAndWait(PathChain path, double driveTimeout, long waitMs) {
+        return new ParallelDeadlineGroup(
+                new SequentialCommandGroup(
+                        new AutoDriveCommand(follower, path, driveTimeout),
+                        new WaitCommand(waitMs)
+                ),
                 new IntakeCommand(intake, transit)
         ).andThen(new InstantCommand(() -> intake.setIntakeState(Intake.IntakeState.STOP)));
     }
@@ -76,160 +93,212 @@ public class Blue18Leave extends CommandOpMode {
         this.transit = new Transit(hardwareMap, false);
         this.turret = new Turret(hardwareMap);
         this.vision = new Vision(hardwareMap);
-        //this.led = new Led(hardwareMap);
         this.alliance = Drive.Alliance.BLUE;
 
-        follower.setStartingPose(new Pose(31.493, 135.917, Math.toRadians(270)));
+        follower.setStartingPose(
+                new Pose(40.797, 135.803, Math.toRadians(-90))
+        );
 
         Path1 = follower.pathBuilder().addPath(
-                        new BezierLine(
-                                new Pose(31.493, 135.917),
-
-                                new Pose(45.944, 116.774)
-                        )
-                ).setLinearHeadingInterpolation(Math.toRadians(270), Math.toRadians(270))
-
-                .build();
+                new BezierLine(
+                        new Pose(40.797, 135.803),
+                        new Pose(54.137, 104.926)
+                )
+        ).setLinearHeadingInterpolation(
+                Math.toRadians(-90),
+                Math.toRadians(-90)
+        ).build();
 
         Path2 = follower.pathBuilder().addPath(
-                        new BezierCurve(
-                                new Pose(45.944, 116.774),
-                                new Pose(89.801, 58.463),
-                                new Pose(22.155, 59.180)
-                        )
-                ).setTangentHeadingInterpolation()
-
-                .build();
+                new BezierCurve(
+                        new Pose(54.137, 104.926),
+                        new Pose(57.303, 57.773),
+                        new Pose(21.583, 59.937)
+                )
+        ).setLinearHeadingInterpolation(
+                Math.toRadians(-90),
+                Math.toRadians(180)
+        ).build();
 
         Path3 = follower.pathBuilder().addPath(
-                        new BezierCurve(
-                                new Pose(22.155, 59.180),
-                                new Pose(45.977, 57.388),
-                                new Pose(55.516, 87.846)
-                        )
-                ).setTangentHeadingInterpolation()
-                .setReversed()
-                .build();
+                new BezierCurve(
+                        new Pose(21.583, 59.937),
+                        new Pose(50.199, 78.636),
+                        new Pose(50.783, 93.982)
+                )
+        ).setLinearHeadingInterpolation(
+                Math.toRadians(180),
+                Math.toRadians(-90)
+        ).build();
 
         Path4 = follower.pathBuilder().addPath(
-                        new BezierCurve(
-                                new Pose(55.516, 87.846),
-                                new Pose(48.695, 67.298),
-                                new Pose(24.000, 66.000)
-                        )
-                ).setTangentHeadingInterpolation()
-
-                .build();
+                new BezierCurve(
+                        new Pose(50.783, 93.982),
+                        new Pose(46.960, 76.127),
+                        new Pose(16.027, 64.881)
+                )
+        ).setLinearHeadingInterpolation(
+                Math.toRadians(-90),
+                Math.toRadians(180)
+        ).build();
 
         Path5 = follower.pathBuilder().addPath(
-                        new BezierLine(
-                                new Pose(24.000, 66.000),
-
-                                new Pose(16.408, 57.500)
-                        )
-                ).setLinearHeadingInterpolation(Math.toRadians(180), Math.toRadians(135))
-
-                .build();
+                new BezierCurve(
+                        new Pose(16.027, 64.881),
+                        new Pose(19.001, 52.533),
+                        new Pose(10.060, 56.259)
+                )
+        ).setLinearHeadingInterpolation(
+                Math.toRadians(180),
+                Math.toRadians(110)
+        ).build();
 
         Path6 = follower.pathBuilder().addPath(
-                        new BezierCurve(
-                                new Pose(16.408, 57.500),
-                                new Pose(47.815, 62.972),
-                                new Pose(55.560, 87.725)
-                        )
-                ).setTangentHeadingInterpolation()
-                .setReversed()
-                .build();
+                new BezierCurve(
+                        new Pose(10.060, 56.259),
+                        new Pose(47.243, 70.113),
+                        new Pose(50.856, 93.516)
+                )
+        ).setLinearHeadingInterpolation(
+                Math.toRadians(110),
+                Math.toRadians(-90)
+        ).build();
 
         Path7 = follower.pathBuilder().addPath(
-                        new BezierCurve(
-                                new Pose(55.560, 87.725),
-                                new Pose(44.400, 83.866),
-                                new Pose(22.563, 84.284)
-                        )
-                ).setTangentHeadingInterpolation()
-
-                .build();
+                new BezierCurve(
+                        new Pose(50.856, 93.516),
+                        new Pose(46.525, 75.005),
+                        new Pose(15.926, 64.974)
+                )
+        ).setLinearHeadingInterpolation(
+                Math.toRadians(-90),
+                Math.toRadians(180)
+        ).build();
 
         Path8 = follower.pathBuilder().addPath(
-                        new BezierLine(
-                                new Pose(22.563, 84.284),
-
-                                new Pose(55.579, 87.638)
-                        )
-                ).setTangentHeadingInterpolation()
-                .setReversed()
-                .build();
+                new BezierCurve(
+                        new Pose(15.926, 64.974),
+                        new Pose(19.381, 52.973),
+                        new Pose(10.080, 56.335)
+                )
+        ).setLinearHeadingInterpolation(
+                Math.toRadians(180),
+                Math.toRadians(110)
+        ).build();
 
         Path9 = follower.pathBuilder().addPath(
-                        new BezierCurve(
-                                new Pose(55.579, 87.638),
-                                new Pose(57.820, 70.602),
-                                new Pose(56.921, 42.241),
-                                new Pose(66.846, 36.409),
-                                new Pose(22.779, 35.313)
-                        )
-                ).setTangentHeadingInterpolation()
-
-                .build();
+                new BezierCurve(
+                        new Pose(10.080, 56.335),
+                        new Pose(48.807, 71.534),
+                        new Pose(50.790, 93.626)
+                )
+        ).setLinearHeadingInterpolation(
+                Math.toRadians(110),
+                Math.toRadians(-90)
+        ).build();
 
         Path10 = follower.pathBuilder().addPath(
-                        new BezierLine(
-                                new Pose(22.779, 35.313),
+                new BezierCurve(
+                        new Pose(50.790, 93.626),
+                        new Pose(52.483, 83.199),
+                        new Pose(21.527, 83.664)
+                )
+        ).setLinearHeadingInterpolation(
+                Math.toRadians(-90),
+                Math.toRadians(180)
+        ).build();
 
-                                new Pose(58.870, 117.499)
-                        )
-                ).setTangentHeadingInterpolation()
-                .setReversed()
-                .build();
+        Path11 = follower.pathBuilder().addPath(
+                new BezierLine(
+                        new Pose(21.527, 83.664),
+                        new Pose(49.366, 84.016)
+                )
+        ).setLinearHeadingInterpolation(
+                Math.toRadians(180),
+                Math.toRadians(180)
+        ).build();
 
+        Path12 = follower.pathBuilder().addPath(
+                new BezierCurve(
+                        new Pose(49.366, 84.016),
+                        new Pose(51.197, 32.569),
+                        new Pose(22.850, 35.245)
+                )
+        ).setTangentHeadingInterpolation().build();
 
-        schedule(
-                new ParallelCommandGroup(
+        Path13 = follower.pathBuilder().addPath(
+                new BezierLine(
+                        new Pose(22.850, 35.245),
+                        new Pose(68.441, 75.671)
+                )
+        ).setLinearHeadingInterpolation(
+                Math.toRadians(180),
+                Math.toRadians(-90)
+        ).build();
+
+        autoCommand = new ParallelCommandGroup(
                         new TurretAlignCommand(follower, turret, alliance, vision),
                         new ShooterAlignCommand(follower, shooter, transit, alliance),
                         new SequentialCommandGroup(
                                 new AutoDriveCommand(follower, Path1),
-                                transitShootCommand(),
-                                intakeTrajCommand(Path2),
-                                intakeTrajCommand(Path3),
-                                transitShootCommand(),
-                                intakeTimedCommand(Path4, 2000),
-                                intakeTimedCommand(Path5, 1000),
+                                shootFor(900),
+                                intakeDuringPath(Path2),
+                                new AutoDriveCommand(follower, Path3),
+                                shootFor(900),
+                                new AutoDriveCommand(follower, Path4),
+                                new InstantCommand(() -> autoStep = "Path5 intake"),
+                                intakeDuringTimedPath(Path5, 1000),
+                                new InstantCommand(() -> autoStep = "Path5 wait"),
                                 new ParallelDeadlineGroup(
-                                        new WaitCommand(500),
+                                        new WaitCommand(1000),
                                         new IntakeCommand(intake, transit)
                                 ),
-                                intakeTrajCommand(Path6),
-                                transitShootCommand(),
-                                intakeTimedCommand(Path4, 2000),
-                                intakeTimedCommand(Path5, 1000),
+                                new InstantCommand(() -> autoStep = "Path6"),
+                                new AutoDriveCommand(follower, Path6),
+                                shootFor(900),
+                                new AutoDriveCommand(follower, Path7),
+                                new InstantCommand(() -> autoStep = "Path8 intake"),
+                                intakeDuringTimedPath(Path8, 800),
+                                new InstantCommand(() -> autoStep = "Path8 wait"),
                                 new ParallelDeadlineGroup(
-                                        new WaitCommand(500),
+                                        new WaitCommand(1000),
                                         new IntakeCommand(intake, transit)
                                 ),
-                                intakeTrajCommand(Path6),
-                                transitShootCommand(),
-                                intakeTrajCommand(Path7),
-                                intakeTrajCommand(Path8),
-                                transitShootCommand(),
-                                intakeTrajCommand(Path9),
-                                intakeTrajCommand(Path10),
-                                transitShootCommand()
+                                new InstantCommand(() -> autoStep = "Path9"),
+                                new AutoDriveCommand(follower, Path9),
+                                shootFor(900),
+                                new AutoDriveCommand(follower, Path10),
+                                new AutoDriveCommand(follower, Path11),
+                                shootFor(900),
+                                intakeDuringPath(Path12),
+                                new AutoDriveCommand(follower, Path13),
+                                shootFor(900)
                         )
-                )
         );
+        schedule(autoCommand);
     }
 
     @Override
     public void run() {
+        autoLoopCount++;
         follower.update();
         CommandScheduler.getInstance().run();
+
         telemetry.addData("Vision Pose: ", vision.getVisionPose());
         telemetry.addData("X", follower.getPose().getX());
         telemetry.addData("Y", follower.getPose().getY());
         telemetry.addData("Heading", follower.getPose().getHeading());
-        telemetry.addData("Shooter at Setpoint: ", shooter.isShooterAtSetPoint());
+        telemetry.addData(
+                "Shooter at Setpoint: ",
+                shooter.isShooterAtSetPoint()
+        );
+        telemetry.addData("Follower Busy", follower.isBusy());
+        telemetry.addData("Heading Error", follower.getHeadingError());
+        telemetry.addData("Path T", follower.getCurrentTValue());
+        telemetry.addData("Auto Step", autoStep);
+        telemetry.addData("Auto Build", AUTO_BUILD);
+        telemetry.addData("Auto Scheduled", CommandScheduler.getInstance().isScheduled(autoCommand));
+        telemetry.addData("Auto Loop", autoLoopCount);
         telemetry.update();
     }
 }

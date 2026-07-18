@@ -17,13 +17,14 @@ public class ShooterConstants {
     public static double middlePose = 0.6;
     public static double lowPose = 0.18;
 
-    public static double near1Pose = 0.12;
-    public static double near2Pose = 0.2;
+    public static double near1Pose = 0.05;
+    public static double near2Pose = 0.15;
     public static double near3Pose = 0.32;
     public static double near4Pose = 0.44;
     public static double near5Pose = 0.55;
     public static double far1Pose = 0.9;
     public static double far2Pose = 1;
+    public static double climbPose = 0;
 
     /**
      * In Ticks Per Second

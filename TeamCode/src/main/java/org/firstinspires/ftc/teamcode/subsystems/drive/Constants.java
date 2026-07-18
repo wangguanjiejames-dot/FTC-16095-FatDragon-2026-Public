@@ -42,14 +42,6 @@ public class Constants {
             .xVelocity(DriveConstants.forwardVelocity)
             .yVelocity(DriveConstants.strafeVelocity);
 
-//    public static OTOSConstants otosConstants = new OTOSConstants()
-//            .hardwareMapName("otos")
-//            .linearUnit(DistanceUnit.INCH)
-//            .angleUnit(AngleUnit.RADIANS)
-//            .offset(new SparkFunOTOS.Pose2D(DriveConstants.xPoseOTOS,
-//                    DriveConstants.yPoseOTOS, DriveConstants.headingPoseOTOS))
-//            .linearScalar(DriveConstants.linearScalar)
-//            .angularScalar(DriveConstants.angularScalar);
 
     public static PinpointConstants localizerConstants = new PinpointConstants()
             .forwardPodY(DriveConstants.yPoseDW)

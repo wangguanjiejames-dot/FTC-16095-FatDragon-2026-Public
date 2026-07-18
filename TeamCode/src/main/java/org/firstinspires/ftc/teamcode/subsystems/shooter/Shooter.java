@@ -76,7 +76,9 @@ public class Shooter extends SubsystemBase {
         NEAR4(ShooterConstants.near4Pose),
         NEAR5(ShooterConstants.near5Pose),
         FAR1(ShooterConstants.far1Pose),
-        FAR2(ShooterConstants.far2Pose);
+        FAR2(ShooterConstants.far2Pose),
+        CLIMB(ShooterConstants.climbPose);
+
 
         final double servoPos;
 
