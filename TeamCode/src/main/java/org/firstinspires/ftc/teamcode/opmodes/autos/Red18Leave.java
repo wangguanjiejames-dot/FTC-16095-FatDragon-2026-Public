@@ -96,7 +96,7 @@ public class Red18Leave extends CommandOpMode {
         this.alliance = Drive.Alliance.RED;
 
         follower.setStartingPose(
-                new Pose(103.203, 135.803, Math.toRadians(-90))
+                new Pose(103.203, 135.803, Math.toRadians(90))
         );
 
         Path1 = follower.pathBuilder().addPath(
@@ -105,8 +105,8 @@ public class Red18Leave extends CommandOpMode {
                         new Pose(89.863, 104.926)
                 )
         ).setLinearHeadingInterpolation(
-                Math.toRadians(-90),
-                Math.toRadians(-90)
+                Math.toRadians(90),
+                Math.toRadians(90)
         ).build();
 
         Path2 = follower.pathBuilder().addPath(
@@ -116,7 +116,7 @@ public class Red18Leave extends CommandOpMode {
                         new Pose(122.417, 59.937)
                 )
         ).setLinearHeadingInterpolation(
-                Math.toRadians(-90),
+                Math.toRadians(90),
                 Math.toRadians(0)
         ).build();
 
@@ -128,7 +128,7 @@ public class Red18Leave extends CommandOpMode {
                 )
         ).setLinearHeadingInterpolation(
                 Math.toRadians(0),
-                Math.toRadians(-90)
+                Math.toRadians(90)
         ).build();
 
         Path4 = follower.pathBuilder().addPath(
@@ -138,30 +138,30 @@ public class Red18Leave extends CommandOpMode {
                         new Pose(127.973, 64.881)
                 )
         ).setLinearHeadingInterpolation(
-                Math.toRadians(-90),
+                Math.toRadians(90),
                 Math.toRadians(0)
         ).build();
 
         Path5 = follower.pathBuilder().addPath(
                 new BezierCurve(
                         new Pose(127.973, 64.881),
-                        new Pose(124.999, 52.533),
-                        new Pose(133.940, 56.259)
+                        new Pose(128.538, 56.072),
+                        new Pose(132.264, 50.298)
                 )
         ).setLinearHeadingInterpolation(
                 Math.toRadians(0),
-                Math.toRadians(70)
+                Math.toRadians(45)
         ).build();
 
         Path6 = follower.pathBuilder().addPath(
                 new BezierCurve(
-                        new Pose(133.940, 56.259),
+                        new Pose(132.264, 50.298),
                         new Pose(96.757, 70.113),
                         new Pose(93.144, 93.516)
                 )
         ).setLinearHeadingInterpolation(
-                Math.toRadians(70),
-                Math.toRadians(-90)
+                Math.toRadians(45),
+                Math.toRadians(90)
         ).build();
 
         Path7 = follower.pathBuilder().addPath(
@@ -171,46 +171,47 @@ public class Red18Leave extends CommandOpMode {
                         new Pose(128.074, 64.974)
                 )
         ).setLinearHeadingInterpolation(
-                Math.toRadians(-90),
+                Math.toRadians(90),
                 Math.toRadians(0)
         ).build();
 
         Path8 = follower.pathBuilder().addPath(
                 new BezierCurve(
                         new Pose(128.074, 64.974),
-                        new Pose(124.619, 52.973),
-                        new Pose(133.920, 56.335)
+                        new Pose(129.090, 54.649),
+                        new Pose(132.057, 50.374)
                 )
         ).setLinearHeadingInterpolation(
                 Math.toRadians(0),
-                Math.toRadians(70)
+                Math.toRadians(45)
         ).build();
 
         Path9 = follower.pathBuilder().addPath(
                 new BezierCurve(
-                        new Pose(133.920, 56.335),
+                        new Pose(132.057, 50.374),
                         new Pose(95.193, 71.534),
                         new Pose(93.210, 93.626)
                 )
         ).setLinearHeadingInterpolation(
-                Math.toRadians(70),
-                Math.toRadians(-90)
+                Math.toRadians(80),
+                Math.toRadians(45)
         ).build();
 
         Path10 = follower.pathBuilder().addPath(
                 new BezierCurve(
                         new Pose(93.210, 93.626),
-                        new Pose(91.517, 83.199),
-                        new Pose(122.473, 83.664)
+                        new Pose(90.399, 80.218),
+                        new Pose(81.928, 84.713),
+                        new Pose(124.523, 83.850)
                 )
         ).setLinearHeadingInterpolation(
-                Math.toRadians(-90),
+                Math.toRadians(90),
                 Math.toRadians(0)
         ).build();
 
         Path11 = follower.pathBuilder().addPath(
                 new BezierLine(
-                        new Pose(122.473, 83.664),
+                        new Pose(124.523, 83.850),
                         new Pose(94.634, 84.016)
                 )
         ).setLinearHeadingInterpolation(
@@ -221,19 +222,19 @@ public class Red18Leave extends CommandOpMode {
         Path12 = follower.pathBuilder().addPath(
                 new BezierCurve(
                         new Pose(94.634, 84.016),
-                        new Pose(92.803, 32.569),
-                        new Pose(121.150, 35.245)
+                        new Pose(92.430, 32.569),
+                        new Pose(125.248, 35.431)
                 )
         ).setTangentHeadingInterpolation().build();
 
         Path13 = follower.pathBuilder().addPath(
                 new BezierLine(
-                        new Pose(121.150, 35.245),
-                        new Pose(75.559, 75.671)
+                        new Pose(125.248, 35.431),
+                        new Pose(83.010, 73.809)
                 )
         ).setLinearHeadingInterpolation(
                 Math.toRadians(0),
-                Math.toRadians(-90)
+                Math.toRadians(90)
         ).build();
 
         autoCommand = new ParallelCommandGroup(
@@ -247,10 +248,10 @@ public class Red18Leave extends CommandOpMode {
                                 shootFor(900),
                                 new AutoDriveCommand(follower, Path4),
                                 new InstantCommand(() -> autoStep = "Path5 intake"),
-                                intakeDuringTimedPath(Path5, 1000),
+                                intakeDuringTimedPath(Path5, 800),
                                 new InstantCommand(() -> autoStep = "Path5 wait"),
                                 new ParallelDeadlineGroup(
-                                        new WaitCommand(1000),
+                                        new WaitCommand(750),
                                         new IntakeCommand(intake, transit)
                                 ),
                                 new InstantCommand(() -> autoStep = "Path6"),
@@ -261,13 +262,13 @@ public class Red18Leave extends CommandOpMode {
                                 intakeDuringTimedPath(Path8, 800),
                                 new InstantCommand(() -> autoStep = "Path8 wait"),
                                 new ParallelDeadlineGroup(
-                                        new WaitCommand(1000),
+                                        new WaitCommand(750),
                                         new IntakeCommand(intake, transit)
                                 ),
                                 new InstantCommand(() -> autoStep = "Path9"),
                                 new AutoDriveCommand(follower, Path9),
                                 shootFor(900),
-                                new AutoDriveCommand(follower, Path10),
+                                intakeDuringPath(Path10),
                                 new AutoDriveCommand(follower, Path11),
                                 shootFor(900),
                                 intakeDuringPath(Path12),

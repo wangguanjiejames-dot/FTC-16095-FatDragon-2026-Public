@@ -145,22 +145,22 @@ public class Blue18Leave extends CommandOpMode {
         Path5 = follower.pathBuilder().addPath(
                 new BezierCurve(
                         new Pose(16.027, 64.881),
-                        new Pose(19.001, 52.533),
-                        new Pose(10.060, 56.259)
+                        new Pose(15.462, 56.072),
+                        new Pose(11.736, 50.298)
                 )
         ).setLinearHeadingInterpolation(
                 Math.toRadians(180),
-                Math.toRadians(110)
+                Math.toRadians(135)
         ).build();
 
         Path6 = follower.pathBuilder().addPath(
                 new BezierCurve(
-                        new Pose(10.060, 56.259),
+                        new Pose(11.736, 50.298),
                         new Pose(47.243, 70.113),
                         new Pose(50.856, 93.516)
                 )
         ).setLinearHeadingInterpolation(
-                Math.toRadians(110),
+                Math.toRadians(135),
                 Math.toRadians(-90)
         ).build();
 
@@ -178,30 +178,31 @@ public class Blue18Leave extends CommandOpMode {
         Path8 = follower.pathBuilder().addPath(
                 new BezierCurve(
                         new Pose(15.926, 64.974),
-                        new Pose(19.381, 52.973),
-                        new Pose(10.080, 56.335)
+                        new Pose(14.910, 54.649),
+                        new Pose(11.943, 50.374)
                 )
         ).setLinearHeadingInterpolation(
                 Math.toRadians(180),
-                Math.toRadians(110)
+                Math.toRadians(135)
         ).build();
 
         Path9 = follower.pathBuilder().addPath(
                 new BezierCurve(
-                        new Pose(10.080, 56.335),
+                        new Pose(11.943, 50.374),
                         new Pose(48.807, 71.534),
                         new Pose(50.790, 93.626)
                 )
         ).setLinearHeadingInterpolation(
-                Math.toRadians(110),
+                Math.toRadians(135),
                 Math.toRadians(-90)
         ).build();
 
         Path10 = follower.pathBuilder().addPath(
                 new BezierCurve(
                         new Pose(50.790, 93.626),
-                        new Pose(52.483, 83.199),
-                        new Pose(21.527, 83.664)
+                        new Pose(53.601, 80.218),
+                        new Pose(62.072, 84.713),
+                        new Pose(19.477, 83.850)
                 )
         ).setLinearHeadingInterpolation(
                 Math.toRadians(-90),
@@ -210,7 +211,7 @@ public class Blue18Leave extends CommandOpMode {
 
         Path11 = follower.pathBuilder().addPath(
                 new BezierLine(
-                        new Pose(21.527, 83.664),
+                        new Pose(19.477, 83.850),
                         new Pose(49.366, 84.016)
                 )
         ).setLinearHeadingInterpolation(
@@ -221,15 +222,15 @@ public class Blue18Leave extends CommandOpMode {
         Path12 = follower.pathBuilder().addPath(
                 new BezierCurve(
                         new Pose(49.366, 84.016),
-                        new Pose(51.197, 32.569),
-                        new Pose(22.850, 35.245)
+                        new Pose(51.570, 32.569),
+                        new Pose(18.752, 35.431)
                 )
         ).setTangentHeadingInterpolation().build();
 
         Path13 = follower.pathBuilder().addPath(
                 new BezierLine(
-                        new Pose(22.850, 35.245),
-                        new Pose(68.441, 75.671)
+                        new Pose(18.752, 35.431),
+                        new Pose(60.990, 73.809)
                 )
         ).setLinearHeadingInterpolation(
                 Math.toRadians(180),
@@ -247,27 +248,27 @@ public class Blue18Leave extends CommandOpMode {
                                 shootFor(900),
                                 new AutoDriveCommand(follower, Path4),
                                 new InstantCommand(() -> autoStep = "Path5 intake"),
-                                intakeDuringTimedPath(Path5, 1000),
+                                intakeDuringTimedPath(Path5, 800),
                                 new InstantCommand(() -> autoStep = "Path5 wait"),
                                 new ParallelDeadlineGroup(
-                                        new WaitCommand(1000),
+                                        new WaitCommand(750),
                                         new IntakeCommand(intake, transit)
                                 ),
-                                new InstantCommand(() -> autoStep = "Path6"),
-                                new AutoDriveCommand(follower, Path6),
+                                new InstantCommand(() -> autoStep = "Path6"),   
+                                intakeDuringPath(Path6),
                                 shootFor(900),
                                 new AutoDriveCommand(follower, Path7),
                                 new InstantCommand(() -> autoStep = "Path8 intake"),
                                 intakeDuringTimedPath(Path8, 800),
                                 new InstantCommand(() -> autoStep = "Path8 wait"),
                                 new ParallelDeadlineGroup(
-                                        new WaitCommand(1000),
+                                        new WaitCommand(750),
                                         new IntakeCommand(intake, transit)
                                 ),
                                 new InstantCommand(() -> autoStep = "Path9"),
-                                new AutoDriveCommand(follower, Path9),
+                                intakeDuringPath(Path9),
                                 shootFor(900),
-                                new AutoDriveCommand(follower, Path10),
+                                intakeDuringPath(Path10),
                                 new AutoDriveCommand(follower, Path11),
                                 shootFor(900),
                                 intakeDuringPath(Path12),
