@@ -66,7 +66,7 @@ public class RedFar extends CommandOpMode {
         this.alliance = Drive.Alliance.RED;
 
         follower.setStartingPose(
-                new Pose(72, 8, Math.toRadians(90))
+                new Pose(80.566, 7.601, Math.toRadians(180))
         );
 
         Path1 = follower.pathBuilder().addPath(

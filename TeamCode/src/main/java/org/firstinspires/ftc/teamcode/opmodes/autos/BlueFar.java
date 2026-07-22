@@ -63,10 +63,10 @@ public class BlueFar extends CommandOpMode {
         this.transit = new Transit(hardwareMap, false);
         this.turret = new Turret(hardwareMap);
         this.vision = new Vision(hardwareMap);
-        this.alliance = Drive.Alliance.RED;
+        this.alliance = Drive.Alliance.BLUE;
 
         follower.setStartingPose(
-                new Pose(72, 8, Math.toRadians(90))
+                new Pose(56.373, 7.441, Math.toRadians(180))
         );
 
         Path1 = follower.pathBuilder().addPath(
