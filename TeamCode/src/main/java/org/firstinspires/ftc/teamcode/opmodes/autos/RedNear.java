@@ -42,7 +42,7 @@ public class RedNear extends CommandOpMode {
     private String autoStep = "Initializing";
     private long autoLoopCount;
 
-    public PathChain Path1, Path2, Path3, Path4, Path5, Path6, Path7, Path8, Path9, Path10, Path11, Path12, Path13, Path14;
+    public PathChain Path1, Path2, Path3, Path4, Path5, Path6, Path7, Path8, Path9, Path10, Path11, Path12;
 
     private Command shootFor(long milliseconds) {
         return new ParallelDeadlineGroup(
@@ -111,7 +111,7 @@ public class RedNear extends CommandOpMode {
 
         Path2 = follower.pathBuilder().addPath(
                 new BezierCurve(
-                        new Pose(107.374, 118.898),
+                        new Pose(103.835, 115.731),
                         new Pose(64.156, 45.105),
                         new Pose(122.231, 59.564)
                 )
@@ -131,70 +131,46 @@ public class RedNear extends CommandOpMode {
         ).build();
 
         Path4 = follower.pathBuilder().addPath(
-                new BezierCurve(
+                new BezierLine(
                         new Pose(85.579, 74.681),
-                        new Pose(102.442, 64.771),
-                        new Pose(127.973, 64.881)
+                        new Pose(132.071, 59.665)
                 )
         ).setLinearHeadingInterpolation(
                 Math.toRadians(90),
-                Math.toRadians(0)
+                Math.toRadians(35)
         ).build();
 
         Path5 = follower.pathBuilder().addPath(
                 new BezierLine(
-                        new Pose(127.973, 64.881),
-                        new Pose(132.264, 50.298)
-                )
-        ).setLinearHeadingInterpolation(
-                Math.toRadians(0),
-                Math.toRadians(45)
-        ).build();
-
-        Path6 = follower.pathBuilder().addPath(
-                new BezierCurve(
-                        new Pose(132.264, 50.298),
-                        new Pose(96.757, 70.113),
+                        new Pose(132.071, 59.665),
                         new Pose(85.506, 74.701)
                 )
         ).setLinearHeadingInterpolation(
-                Math.toRadians(45),
+                Math.toRadians(35),
                 Math.toRadians(90)
         ).build();
 
-        Path7 = follower.pathBuilder().addPath(
-                new BezierCurve(
+        Path6 = follower.pathBuilder().addPath(
+                new BezierLine(
                         new Pose(85.506, 74.701),
-                        new Pose(96.451, 63.460),
-                        new Pose(128.074, 64.974)
+                        new Pose(132.172, 59.385)
                 )
         ).setLinearHeadingInterpolation(
                 Math.toRadians(90),
-                Math.toRadians(0)
+                Math.toRadians(35)
         ).build();
 
-        Path8 = follower.pathBuilder().addPath(
+        Path7 = follower.pathBuilder().addPath(
                 new BezierLine(
-                        new Pose(128.074, 64.974),
-                        new Pose(132.057, 50.374)
-                )
-        ).setLinearHeadingInterpolation(
-                Math.toRadians(0),
-                Math.toRadians(45)
-        ).build();
-
-        Path9 = follower.pathBuilder().addPath(
-                new BezierCurve(
-                        new Pose(132.057, 50.374),
-                        new Pose(95.193, 71.534),
+                        new Pose(132.172, 59.385),
                         new Pose(85.133, 74.515)
                 )
         ).setLinearHeadingInterpolation(
-                Math.toRadians(45),
+                Math.toRadians(35),
                 Math.toRadians(90)
         ).build();
 
-        Path10 = follower.pathBuilder().addPath(
+        Path8 = follower.pathBuilder().addPath(
                 new BezierCurve(
                         new Pose(85.133, 74.515),
                         new Pose(72.093, 84.947),
@@ -206,19 +182,19 @@ public class RedNear extends CommandOpMode {
                 Math.toRadians(0)
         ).build();
 
-        Path11 = follower.pathBuilder().addPath(
+        Path9 = follower.pathBuilder().addPath(
                 new BezierLine(
                         new Pose(122.474, 83.477),
-                        new Pose(95.379, 83.271)
+                        new Pose(89.604, 84.202)
                 )
         ).setLinearHeadingInterpolation(
                 Math.toRadians(0),
                 Math.toRadians(49)
         ).build();
 
-        Path12 = follower.pathBuilder().addPath(
+        Path10 = follower.pathBuilder().addPath(
                 new BezierCurve(
-                        new Pose(95.379, 83.271),
+                        new Pose(89.604, 84.202),
                         new Pose(80.508, 22.882),
                         new Pose(123.758, 35.058)
                 )
@@ -227,7 +203,7 @@ public class RedNear extends CommandOpMode {
                 Math.toRadians(0)
         ).build();
 
-        Path13 = follower.pathBuilder().addPath(
+        Path11 = follower.pathBuilder().addPath(
                 new BezierLine(
                         new Pose(123.758, 35.058),
                         new Pose(83.010, 73.809)
@@ -237,7 +213,7 @@ public class RedNear extends CommandOpMode {
                 Math.toRadians(90)
         ).build();
 
-        Path14 = follower.pathBuilder().addPath(
+        Path12 = follower.pathBuilder().addPath(
                 new BezierLine(
                         new Pose(83.010, 73.809),
                         new Pose(83.398, 62.898)
@@ -256,35 +232,19 @@ public class RedNear extends CommandOpMode {
                                 intakeDuringPath(Path2),
                                 new AutoDriveCommand(follower, Path3),
                                 shootFor(900),
-                                new AutoDriveCommand(follower, Path4, 0.8, 250),
-                                new InstantCommand(() -> autoStep = "Path5 intake"),
-                                intakeDuringTimedPath(Path5, 200),
-                                new InstantCommand(() -> autoStep = "Path5 wait"),
-                                new ParallelDeadlineGroup(
-                                        new WaitCommand(160),
-                                        new IntakeCommand(intake, transit)
-                                ),
-                                new InstantCommand(() -> autoStep = "Path6"),
-                                new AutoDriveCommand(follower, Path6),
+                                intakeDuringPathAndWait(Path4, 150),
+                                new AutoDriveCommand(follower, Path5),
                                 shootFor(900),
-                                new AutoDriveCommand(follower, Path7, 0.8, 250),
-                                new InstantCommand(() -> autoStep = "Path8 intake"),
-                                intakeDuringTimedPath(Path8, 200),
-                                new InstantCommand(() -> autoStep = "Path8 wait"),
-                                new ParallelDeadlineGroup(
-                                        new WaitCommand(160),
-                                        new IntakeCommand(intake, transit)
-                                ),
-                                new InstantCommand(() -> autoStep = "Path9"),
+                                intakeDuringPathAndWait(Path6, 150),
+                                new AutoDriveCommand(follower, Path7),
+                                shootFor(900),
+                                intakeDuringPath(Path8),
                                 new AutoDriveCommand(follower, Path9),
                                 shootFor(900),
                                 intakeDuringPath(Path10),
                                 new AutoDriveCommand(follower, Path11),
                                 shootFor(900),
-                                intakeDuringPath(Path12),
-                                new AutoDriveCommand(follower, Path13),
-                                shootFor(900),
-                                new AutoDriveCommand(follower, Path14)
+                                new AutoDriveCommand(follower, Path12)
                         )
         );
         schedule(autoCommand);
