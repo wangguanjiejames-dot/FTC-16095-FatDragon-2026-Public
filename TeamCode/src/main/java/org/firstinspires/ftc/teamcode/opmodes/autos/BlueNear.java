@@ -96,16 +96,16 @@ public class BlueNear extends CommandOpMode {
         this.alliance = Drive.Alliance.BLUE;
 
         follower.setStartingPose(
-                new Pose(40.797, 135.803, Math.toRadians(-90))
+                new Pose(25.631, 128.759, Math.toRadians(142))
         );
 
         Path1 = follower.pathBuilder().addPath(
                 new BezierLine(
-                        new Pose(40.797, 135.803),
+                        new Pose(25.631, 128.759),
                         new Pose(54.137, 104.926)
                 )
         ).setLinearHeadingInterpolation(
-                Math.toRadians(-90),
+                Math.toRadians(142),
                 Math.toRadians(-90)
         ).build();
 

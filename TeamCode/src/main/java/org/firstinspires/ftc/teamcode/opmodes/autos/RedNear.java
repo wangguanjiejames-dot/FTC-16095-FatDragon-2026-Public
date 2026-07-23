@@ -96,16 +96,16 @@ public class RedNear extends CommandOpMode {
         this.alliance = Drive.Alliance.RED;
 
         follower.setStartingPose(
-                new Pose(103.203, 135.803, Math.toRadians(90))
+                new Pose(118.302, 128.559, Math.toRadians(38))
         );
 
         Path1 = follower.pathBuilder().addPath(
                 new BezierLine(
-                        new Pose(103.203, 135.803),
+                        new Pose(118.302, 128.559),
                         new Pose(89.863, 104.926)
                 )
         ).setLinearHeadingInterpolation(
-                Math.toRadians(90),
+                Math.toRadians(38),
                 Math.toRadians(90)
         ).build();
 
