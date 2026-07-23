@@ -137,7 +137,7 @@ public class RedNear extends CommandOpMode {
                 )
         ).setLinearHeadingInterpolation(
                 Math.toRadians(90),
-                Math.toRadians(35)
+                Math.toRadians(0)
         ).build();
 
         Path5 = follower.pathBuilder().addPath(

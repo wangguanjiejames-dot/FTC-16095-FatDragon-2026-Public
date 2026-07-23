@@ -42,7 +42,7 @@ public class BlueNear extends CommandOpMode {
     private String autoStep = "Initializing";
     private long autoLoopCount;
 
-    public PathChain Path1, Path2, Path3, Path4, Path5, Path6, Path7, Path8, Path9, Path10, Path11, Path12, Path13;
+    public PathChain Path1, Path2, Path3, Path4, Path5, Path6, Path7, Path8, Path9, Path10, Path11, Path12, Path13, Path14;
 
     private Command shootFor(long milliseconds) {
         return new ParallelDeadlineGroup(
@@ -96,13 +96,13 @@ public class BlueNear extends CommandOpMode {
         this.alliance = Drive.Alliance.BLUE;
 
         follower.setStartingPose(
-                new Pose(25.631, 128.759, Math.toRadians(142))
+                new Pose(25.698, 128.559, Math.toRadians(142))
         );
 
         Path1 = follower.pathBuilder().addPath(
                 new BezierLine(
-                        new Pose(25.631, 128.759),
-                        new Pose(54.137, 104.926)
+                        new Pose(25.698, 128.559),
+                        new Pose(50.598, 118.339)
                 )
         ).setLinearHeadingInterpolation(
                 Math.toRadians(142),
@@ -111,9 +111,9 @@ public class BlueNear extends CommandOpMode {
 
         Path2 = follower.pathBuilder().addPath(
                 new BezierCurve(
-                        new Pose(54.137, 104.926),
-                        new Pose(57.303, 57.773),
-                        new Pose(21.583, 59.937)
+                        new Pose(50.598, 118.339),
+                        new Pose(79.844, 45.105),
+                        new Pose(21.769, 59.564)
                 )
         ).setLinearHeadingInterpolation(
                 Math.toRadians(-90),
@@ -121,10 +121,9 @@ public class BlueNear extends CommandOpMode {
         ).build();
 
         Path3 = follower.pathBuilder().addPath(
-                new BezierCurve(
-                        new Pose(21.583, 59.937),
-                        new Pose(50.199, 78.636),
-                        new Pose(50.783, 93.982)
+                new BezierLine(
+                        new Pose(21.769, 59.564),
+                        new Pose(58.421, 74.681)
                 )
         ).setLinearHeadingInterpolation(
                 Math.toRadians(180),
@@ -132,10 +131,9 @@ public class BlueNear extends CommandOpMode {
         ).build();
 
         Path4 = follower.pathBuilder().addPath(
-                new BezierCurve(
-                        new Pose(50.783, 93.982),
-                        new Pose(46.960, 76.127),
-                        new Pose(16.027, 64.881)
+                new BezierLine(
+                        new Pose(58.421, 74.681),
+                        new Pose(16.580, 64.269)
                 )
         ).setLinearHeadingInterpolation(
                 Math.toRadians(-90),
@@ -143,10 +141,9 @@ public class BlueNear extends CommandOpMode {
         ).build();
 
         Path5 = follower.pathBuilder().addPath(
-                new BezierCurve(
-                        new Pose(16.027, 64.881),
-                        new Pose(15.462, 56.072),
-                        new Pose(11.736, 50.298)
+                new BezierLine(
+                        new Pose(16.580, 64.269),
+                        new Pose(12.860, 55.380)
                 )
         ).setLinearHeadingInterpolation(
                 Math.toRadians(180),
@@ -154,10 +151,9 @@ public class BlueNear extends CommandOpMode {
         ).build();
 
         Path6 = follower.pathBuilder().addPath(
-                new BezierCurve(
-                        new Pose(11.736, 50.298),
-                        new Pose(47.243, 70.113),
-                        new Pose(50.856, 93.516)
+                new BezierLine(
+                        new Pose(12.860, 55.380),
+                        new Pose(58.494, 74.701)
                 )
         ).setLinearHeadingInterpolation(
                 Math.toRadians(135),
@@ -165,10 +161,9 @@ public class BlueNear extends CommandOpMode {
         ).build();
 
         Path7 = follower.pathBuilder().addPath(
-                new BezierCurve(
-                        new Pose(50.856, 93.516),
-                        new Pose(46.525, 75.005),
-                        new Pose(15.926, 64.974)
+                new BezierLine(
+                        new Pose(58.494, 74.701),
+                        new Pose(16.485, 64.043)
                 )
         ).setLinearHeadingInterpolation(
                 Math.toRadians(-90),
@@ -176,10 +171,9 @@ public class BlueNear extends CommandOpMode {
         ).build();
 
         Path8 = follower.pathBuilder().addPath(
-                new BezierCurve(
-                        new Pose(15.926, 64.974),
-                        new Pose(14.910, 54.649),
-                        new Pose(11.943, 50.374)
+                new BezierLine(
+                        new Pose(16.485, 64.043),
+                        new Pose(13.086, 55.493)
                 )
         ).setLinearHeadingInterpolation(
                 Math.toRadians(180),
@@ -187,10 +181,9 @@ public class BlueNear extends CommandOpMode {
         ).build();
 
         Path9 = follower.pathBuilder().addPath(
-                new BezierCurve(
-                        new Pose(11.943, 50.374),
-                        new Pose(48.807, 71.534),
-                        new Pose(50.790, 93.626)
+                new BezierLine(
+                        new Pose(13.086, 55.493),
+                        new Pose(57.935, 74.329)
                 )
         ).setLinearHeadingInterpolation(
                 Math.toRadians(135),
@@ -199,10 +192,10 @@ public class BlueNear extends CommandOpMode {
 
         Path10 = follower.pathBuilder().addPath(
                 new BezierCurve(
-                        new Pose(50.790, 93.626),
-                        new Pose(53.601, 80.218),
-                        new Pose(62.072, 84.713),
-                        new Pose(19.477, 83.850)
+                        new Pose(57.935, 74.329),
+                        new Pose(71.907, 84.947),
+                        new Pose(57.143, 79.369),
+                        new Pose(21.526, 83.477)
                 )
         ).setLinearHeadingInterpolation(
                 Math.toRadians(-90),
@@ -211,30 +204,43 @@ public class BlueNear extends CommandOpMode {
 
         Path11 = follower.pathBuilder().addPath(
                 new BezierLine(
-                        new Pose(19.477, 83.850),
-                        new Pose(49.366, 84.016)
+                        new Pose(21.526, 83.477),
+                        new Pose(54.396, 84.202)
                 )
         ).setLinearHeadingInterpolation(
                 Math.toRadians(180),
-                Math.toRadians(180)
+                Math.toRadians(131)
         ).build();
 
         Path12 = follower.pathBuilder().addPath(
                 new BezierCurve(
-                        new Pose(49.366, 84.016),
-                        new Pose(51.570, 32.569),
-                        new Pose(18.752, 35.431)
+                        new Pose(54.396, 84.202),
+                        new Pose(63.492, 22.882),
+                        new Pose(20.242, 35.058)
                 )
-        ).setTangentHeadingInterpolation().build();
+        ).setLinearHeadingInterpolation(
+                Math.toRadians(131),
+                Math.toRadians(180)
+        ).build();
 
         Path13 = follower.pathBuilder().addPath(
                 new BezierLine(
-                        new Pose(18.752, 35.431),
+                        new Pose(20.242, 35.058),
                         new Pose(60.990, 73.809)
                 )
         ).setLinearHeadingInterpolation(
                 Math.toRadians(180),
                 Math.toRadians(-90)
+        ).build();
+
+        Path14 = follower.pathBuilder().addPath(
+                new BezierLine(
+                        new Pose(60.990, 73.809),
+                        new Pose(60.602, 62.898)
+                )
+        ).setLinearHeadingInterpolation(
+                Math.toRadians(-90),
+                Math.toRadians(180)
         ).build();
 
         autoCommand = new ParallelCommandGroup(
@@ -246,34 +252,21 @@ public class BlueNear extends CommandOpMode {
                                 intakeDuringPath(Path2),
                                 new AutoDriveCommand(follower, Path3),
                                 shootFor(900),
-                                new AutoDriveCommand(follower, Path4, 0.8, 250),
-                                new InstantCommand(() -> autoStep = "Path5 intake"),
-                                intakeDuringTimedPath(Path5, 400),
-                                new InstantCommand(() -> autoStep = "Path5 wait"),
-                                new ParallelDeadlineGroup(
-                                        new WaitCommand(200),
-                                        new IntakeCommand(intake, transit)
-                                ),
-                                new InstantCommand(() -> autoStep = "Path6"),   
-                                intakeDuringPath(Path6),
+                                new AutoDriveCommand(follower, Path4),
+                                intakeDuringPathAndWait(Path5, 150),
+                                new AutoDriveCommand(follower, Path6),
                                 shootFor(900),
-                                new AutoDriveCommand(follower, Path7, 0.8, 250),
-                                new InstantCommand(() -> autoStep = "Path8 intake"),
-                                intakeDuringTimedPath(Path8, 400),
-                                new InstantCommand(() -> autoStep = "Path8 wait"),
-                                new ParallelDeadlineGroup(
-                                        new WaitCommand(200),
-                                        new IntakeCommand(intake, transit)
-                                ),
-                                new InstantCommand(() -> autoStep = "Path9"),
-                                intakeDuringPath(Path9),
+                                new AutoDriveCommand(follower, Path7),
+                                intakeDuringPathAndWait(Path8, 150),
+                                new AutoDriveCommand(follower, Path9),
                                 shootFor(900),
                                 intakeDuringPath(Path10),
                                 new AutoDriveCommand(follower, Path11),
                                 shootFor(900),
                                 intakeDuringPath(Path12),
                                 new AutoDriveCommand(follower, Path13),
-                                shootFor(900)
+                                shootFor(900),
+                                new AutoDriveCommand(follower, Path14)
                         )
         );
         schedule(autoCommand);
