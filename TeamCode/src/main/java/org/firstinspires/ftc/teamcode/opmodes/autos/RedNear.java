@@ -112,7 +112,7 @@ public class RedNear extends CommandOpMode {
         Path2 = follower.pathBuilder().addPath(
                 new BezierCurve(
                         new Pose(89.863, 104.926),
-                        new Pose(62.852, 53.675),
+                        new Pose(64.156, 45.105),
                         new Pose(122.417, 59.937)
                 )
         ).setLinearHeadingInterpolation(
@@ -134,7 +134,7 @@ public class RedNear extends CommandOpMode {
         Path4 = follower.pathBuilder().addPath(
                 new BezierCurve(
                         new Pose(93.217, 93.982),
-                        new Pose(97.040, 76.127),
+                        new Pose(88.515, 54.493),
                         new Pose(127.973, 64.881)
                 )
         ).setLinearHeadingInterpolation(
@@ -167,7 +167,7 @@ public class RedNear extends CommandOpMode {
         Path7 = follower.pathBuilder().addPath(
                 new BezierCurve(
                         new Pose(93.144, 93.516),
-                        new Pose(97.475, 75.005),
+                        new Pose(88.813, 54.518),
                         new Pose(128.074, 64.974)
                 )
         ).setLinearHeadingInterpolation(
@@ -248,10 +248,10 @@ public class RedNear extends CommandOpMode {
                                 shootFor(900),
                                 new AutoDriveCommand(follower, Path4),
                                 new InstantCommand(() -> autoStep = "Path5 intake"),
-                                intakeDuringTimedPath(Path5, 200),
+                                intakeDuringTimedPath(Path5, 80),
                                 new InstantCommand(() -> autoStep = "Path5 wait"),
                                 new ParallelDeadlineGroup(
-                                        new WaitCommand(130),
+                                        new WaitCommand(50),
                                         new IntakeCommand(intake, transit)
                                 ),
                                 new InstantCommand(() -> autoStep = "Path6"),
@@ -259,10 +259,10 @@ public class RedNear extends CommandOpMode {
                                 shootFor(900),
                                 new AutoDriveCommand(follower, Path7),
                                 new InstantCommand(() -> autoStep = "Path8 intake"),
-                                intakeDuringTimedPath(Path8, 200),
+                                intakeDuringTimedPath(Path8, 80),
                                 new InstantCommand(() -> autoStep = "Path8 wait"),
                                 new ParallelDeadlineGroup(
-                                        new WaitCommand(130),
+                                        new WaitCommand(50),
                                         new IntakeCommand(intake, transit)
                                 ),
                                 new InstantCommand(() -> autoStep = "Path9"),
