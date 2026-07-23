@@ -102,7 +102,7 @@ public class RedNear extends CommandOpMode {
         Path1 = follower.pathBuilder().addPath(
                 new BezierLine(
                         new Pose(118.302, 128.559),
-                        new Pose(107.374, 118.898)
+                        new Pose(103.835, 115.731)
                 )
         ).setLinearHeadingInterpolation(
                 Math.toRadians(38),
@@ -213,17 +213,17 @@ public class RedNear extends CommandOpMode {
                 )
         ).setLinearHeadingInterpolation(
                 Math.toRadians(0),
-                Math.toRadians(0)
+                Math.toRadians(49)
         ).build();
 
         Path12 = follower.pathBuilder().addPath(
                 new BezierCurve(
                         new Pose(95.379, 83.271),
-                        new Pose(85.351, 24.931),
+                        new Pose(80.508, 22.882),
                         new Pose(123.758, 35.058)
                 )
         ).setLinearHeadingInterpolation(
-                Math.toRadians(0),
+                Math.toRadians(49),
                 Math.toRadians(0)
         ).build();
 
@@ -256,7 +256,7 @@ public class RedNear extends CommandOpMode {
                                 intakeDuringPath(Path2),
                                 new AutoDriveCommand(follower, Path3),
                                 shootFor(900),
-                                new AutoDriveCommand(follower, Path4, 250),
+                                new AutoDriveCommand(follower, Path4, 0.8, 250),
                                 new InstantCommand(() -> autoStep = "Path5 intake"),
                                 intakeDuringTimedPath(Path5, 200),
                                 new InstantCommand(() -> autoStep = "Path5 wait"),
@@ -267,7 +267,7 @@ public class RedNear extends CommandOpMode {
                                 new InstantCommand(() -> autoStep = "Path6"),
                                 new AutoDriveCommand(follower, Path6),
                                 shootFor(900),
-                                new AutoDriveCommand(follower, Path7, 250),
+                                new AutoDriveCommand(follower, Path7, 0.8, 250),
                                 new InstantCommand(() -> autoStep = "Path8 intake"),
                                 intakeDuringTimedPath(Path8, 200),
                                 new InstantCommand(() -> autoStep = "Path8 wait"),
