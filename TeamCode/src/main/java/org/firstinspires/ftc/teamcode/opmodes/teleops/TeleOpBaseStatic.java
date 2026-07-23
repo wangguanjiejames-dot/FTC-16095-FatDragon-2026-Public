@@ -151,11 +151,6 @@ public abstract class TeleOpBaseStatic extends CommandOpMode {
         ).whenPressed(
                 new InstantCommand(() -> killed = !killed)
         );
-        new FunctionalButton(
-                () -> gamepadEx1.getButton(GamepadKeys.Button.DPAD_UP)
-        ).whenPressed(
-                new InstantCommand(() -> shooter.setPitchState(Shooter.PitchState.CLIMB))
-        );
     }
 
     @Override

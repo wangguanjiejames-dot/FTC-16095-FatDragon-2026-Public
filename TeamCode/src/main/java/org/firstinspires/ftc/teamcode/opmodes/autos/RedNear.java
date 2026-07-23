@@ -106,17 +106,17 @@ public class RedNear extends CommandOpMode {
                 )
         ).setLinearHeadingInterpolation(
                 Math.toRadians(38),
-                Math.toRadians(90)
+                Math.toRadians(38)
         ).build();
 
         Path2 = follower.pathBuilder().addPath(
                 new BezierCurve(
                         new Pose(89.863, 104.926),
-                        new Pose(86.697, 57.773),
+                        new Pose(62.852, 53.675),
                         new Pose(122.417, 59.937)
                 )
         ).setLinearHeadingInterpolation(
-                Math.toRadians(90),
+                Math.toRadians(38),
                 Math.toRadians(0)
         ).build();
 
@@ -248,10 +248,10 @@ public class RedNear extends CommandOpMode {
                                 shootFor(900),
                                 new AutoDriveCommand(follower, Path4),
                                 new InstantCommand(() -> autoStep = "Path5 intake"),
-                                intakeDuringTimedPath(Path5, 800),
+                                intakeDuringTimedPath(Path5, 400),
                                 new InstantCommand(() -> autoStep = "Path5 wait"),
                                 new ParallelDeadlineGroup(
-                                        new WaitCommand(750),
+                                        new WaitCommand(200),
                                         new IntakeCommand(intake, transit)
                                 ),
                                 new InstantCommand(() -> autoStep = "Path6"),
@@ -259,10 +259,10 @@ public class RedNear extends CommandOpMode {
                                 shootFor(900),
                                 new AutoDriveCommand(follower, Path7),
                                 new InstantCommand(() -> autoStep = "Path8 intake"),
-                                intakeDuringTimedPath(Path8, 800),
+                                intakeDuringTimedPath(Path8, 400),
                                 new InstantCommand(() -> autoStep = "Path8 wait"),
                                 new ParallelDeadlineGroup(
-                                        new WaitCommand(750),
+                                        new WaitCommand(200),
                                         new IntakeCommand(intake, transit)
                                 ),
                                 new InstantCommand(() -> autoStep = "Path9"),
