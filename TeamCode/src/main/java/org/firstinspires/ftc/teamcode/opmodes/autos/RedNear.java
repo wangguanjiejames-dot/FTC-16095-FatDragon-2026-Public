@@ -248,10 +248,10 @@ public class RedNear extends CommandOpMode {
                                 shootFor(900),
                                 new AutoDriveCommand(follower, Path4),
                                 new InstantCommand(() -> autoStep = "Path5 intake"),
-                                intakeDuringTimedPath(Path5, 400),
+                                intakeDuringTimedPath(Path5, 200),
                                 new InstantCommand(() -> autoStep = "Path5 wait"),
                                 new ParallelDeadlineGroup(
-                                        new WaitCommand(200),
+                                        new WaitCommand(130),
                                         new IntakeCommand(intake, transit)
                                 ),
                                 new InstantCommand(() -> autoStep = "Path6"),
@@ -259,10 +259,10 @@ public class RedNear extends CommandOpMode {
                                 shootFor(900),
                                 new AutoDriveCommand(follower, Path7),
                                 new InstantCommand(() -> autoStep = "Path8 intake"),
-                                intakeDuringTimedPath(Path8, 400),
+                                intakeDuringTimedPath(Path8, 200),
                                 new InstantCommand(() -> autoStep = "Path8 wait"),
                                 new ParallelDeadlineGroup(
-                                        new WaitCommand(200),
+                                        new WaitCommand(130),
                                         new IntakeCommand(intake, transit)
                                 ),
                                 new InstantCommand(() -> autoStep = "Path9"),
