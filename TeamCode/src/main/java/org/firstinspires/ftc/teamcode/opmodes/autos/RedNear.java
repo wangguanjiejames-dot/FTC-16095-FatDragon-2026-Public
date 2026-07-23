@@ -42,7 +42,7 @@ public class RedNear extends CommandOpMode {
     private String autoStep = "Initializing";
     private long autoLoopCount;
 
-    public PathChain Path1, Path2, Path3, Path4, Path5, Path6, Path7, Path8, Path9, Path10, Path11, Path12;
+    public PathChain Path1, Path2, Path3, Path4, Path5, Path6, Path7, Path8, Path9, Path10, Path11, Path12, Path13, Path14;
 
     private Command shootFor(long milliseconds) {
         return new ParallelDeadlineGroup(
@@ -62,28 +62,6 @@ public class RedNear extends CommandOpMode {
         return new ParallelDeadlineGroup(
                 new SequentialCommandGroup(
                         new AutoDriveCommand(follower, path),
-                        new WaitCommand(waitMs)
-                ),
-                new IntakeCommand(intake, transit)
-        ).andThen(new InstantCommand(() -> intake.setIntakeState(Intake.IntakeState.STOP)));
-    }
-
-    private Command intakeDuringPathAndWait(
-            PathChain path,
-            long waitMs,
-            double minimumProgress,
-            double stallTime,
-            double minimumMovement
-    ) {
-        return new ParallelDeadlineGroup(
-                new SequentialCommandGroup(
-                        new AutoDriveCommand(
-                                follower,
-                                path,
-                                minimumProgress,
-                                stallTime,
-                                minimumMovement
-                        ),
                         new WaitCommand(waitMs)
                 ),
                 new IntakeCommand(intake, transit)
@@ -124,7 +102,7 @@ public class RedNear extends CommandOpMode {
         Path1 = follower.pathBuilder().addPath(
                 new BezierLine(
                         new Pose(118.302, 128.559),
-                        new Pose(103.835, 115.731)
+                        new Pose(93.402, 118.339)
                 )
         ).setLinearHeadingInterpolation(
                 Math.toRadians(38),
@@ -133,7 +111,7 @@ public class RedNear extends CommandOpMode {
 
         Path2 = follower.pathBuilder().addPath(
                 new BezierCurve(
-                        new Pose(103.835, 115.731),
+                        new Pose(93.402, 118.339),
                         new Pose(64.156, 45.105),
                         new Pose(122.231, 59.564)
                 )
@@ -155,7 +133,7 @@ public class RedNear extends CommandOpMode {
         Path4 = follower.pathBuilder().addPath(
                 new BezierLine(
                         new Pose(85.579, 74.681),
-                        new Pose(132.630, 59.479)
+                        new Pose(127.420, 64.269)
                 )
         ).setLinearHeadingInterpolation(
                 Math.toRadians(90),
@@ -164,37 +142,57 @@ public class RedNear extends CommandOpMode {
 
         Path5 = follower.pathBuilder().addPath(
                 new BezierLine(
-                        new Pose(132.630, 59.479),
-                        new Pose(85.506, 74.701)
+                        new Pose(127.420, 64.269),
+                        new Pose(131.140, 55.380)
                 )
         ).setLinearHeadingInterpolation(
-                Math.toRadians(35),
-                Math.toRadians(90)
+                Math.toRadians(0),
+                Math.toRadians(45)
         ).build();
 
         Path6 = follower.pathBuilder().addPath(
                 new BezierLine(
-                        new Pose(85.506, 74.701),
-                        new Pose(132.545, 59.385)
+                        new Pose(131.140, 55.380),
+                        new Pose(85.506, 74.701)
                 )
         ).setLinearHeadingInterpolation(
-                Math.toRadians(90),
-                Math.toRadians(35)
+                Math.toRadians(45),
+                Math.toRadians(90)
         ).build();
 
         Path7 = follower.pathBuilder().addPath(
                 new BezierLine(
-                        new Pose(132.545, 59.385),
-                        new Pose(85.133, 74.515)
+                        new Pose(85.506, 74.701),
+                        new Pose(127.515, 64.043)
                 )
         ).setLinearHeadingInterpolation(
-                Math.toRadians(35),
-                Math.toRadians(90)
+                Math.toRadians(90),
+                Math.toRadians(0)
         ).build();
 
         Path8 = follower.pathBuilder().addPath(
+                new BezierLine(
+                        new Pose(127.515, 64.043),
+                        new Pose(130.914, 55.493)
+                )
+        ).setLinearHeadingInterpolation(
+                Math.toRadians(0),
+                Math.toRadians(45)
+        ).build();
+
+        Path9 = follower.pathBuilder().addPath(
+                new BezierLine(
+                        new Pose(130.914, 55.493),
+                        new Pose(86.065, 74.329)
+                )
+        ).setLinearHeadingInterpolation(
+                Math.toRadians(45),
+                Math.toRadians(90)
+        ).build();
+
+        Path10 = follower.pathBuilder().addPath(
                 new BezierCurve(
-                        new Pose(85.133, 74.515),
+                        new Pose(86.065, 74.329),
                         new Pose(72.093, 84.947),
                         new Pose(86.857, 79.369),
                         new Pose(122.474, 83.477)
@@ -204,7 +202,7 @@ public class RedNear extends CommandOpMode {
                 Math.toRadians(0)
         ).build();
 
-        Path9 = follower.pathBuilder().addPath(
+        Path11 = follower.pathBuilder().addPath(
                 new BezierLine(
                         new Pose(122.474, 83.477),
                         new Pose(89.604, 84.202)
@@ -214,7 +212,7 @@ public class RedNear extends CommandOpMode {
                 Math.toRadians(49)
         ).build();
 
-        Path10 = follower.pathBuilder().addPath(
+        Path12 = follower.pathBuilder().addPath(
                 new BezierCurve(
                         new Pose(89.604, 84.202),
                         new Pose(80.508, 22.882),
@@ -225,7 +223,7 @@ public class RedNear extends CommandOpMode {
                 Math.toRadians(0)
         ).build();
 
-        Path11 = follower.pathBuilder().addPath(
+        Path13 = follower.pathBuilder().addPath(
                 new BezierLine(
                         new Pose(123.758, 35.058),
                         new Pose(83.010, 73.809)
@@ -235,7 +233,7 @@ public class RedNear extends CommandOpMode {
                 Math.toRadians(90)
         ).build();
 
-        Path12 = follower.pathBuilder().addPath(
+        Path14 = follower.pathBuilder().addPath(
                 new BezierLine(
                         new Pose(83.010, 73.809),
                         new Pose(83.398, 62.898)
@@ -254,19 +252,21 @@ public class RedNear extends CommandOpMode {
                                 intakeDuringPath(Path2),
                                 new AutoDriveCommand(follower, Path3),
                                 shootFor(900),
-                                intakeDuringPathAndWait(Path4, 150, 0.95, 200, 0.05),
-                                new AutoDriveCommand(follower, Path5),
+                                new AutoDriveCommand(follower, Path4),
+                                intakeDuringPathAndWait(Path5, 150),
+                                new AutoDriveCommand(follower, Path6),
                                 shootFor(900),
-                                intakeDuringPathAndWait(Path6, 150, 0.95, 200, 0.05),
                                 new AutoDriveCommand(follower, Path7),
-                                shootFor(900),
-                                intakeDuringPath(Path8),
+                                intakeDuringPathAndWait(Path8, 150),
                                 new AutoDriveCommand(follower, Path9),
                                 shootFor(900),
                                 intakeDuringPath(Path10),
                                 new AutoDriveCommand(follower, Path11),
                                 shootFor(900),
-                                new AutoDriveCommand(follower, Path12)
+                                intakeDuringPath(Path12),
+                                new AutoDriveCommand(follower, Path13),
+                                shootFor(900),
+                                new AutoDriveCommand(follower, Path14)
                         )
         );
         schedule(autoCommand);

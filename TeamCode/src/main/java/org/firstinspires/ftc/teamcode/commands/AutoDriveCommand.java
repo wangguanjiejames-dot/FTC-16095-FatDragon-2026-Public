@@ -14,14 +14,9 @@ public class AutoDriveCommand extends CommandBase {
     private final ElapsedTime timer;
     private final ElapsedTime stallTimer;
     private boolean useStallProtection;
-    private boolean useMovementStallProtection;
-    private boolean stallProtectionArmed;
     private double minimumProgress;
     private double stallTime;
-    private double minimumMovement;
     private double bestProgress;
-    private double lastMovementX;
-    private double lastMovementY;
 
     public AutoDriveCommand(Follower follower, PathChain pathChain) {
         this.follower = follower;
@@ -51,24 +46,11 @@ public class AutoDriveCommand extends CommandBase {
         this.stallTime = stallTime;
     }
 
-    public AutoDriveCommand(
-            Follower follower,
-            PathChain pathChain,
-            double minimumProgress,
-            double stallTime,
-            double minimumMovement
-    ) {
-        this(follower, pathChain, minimumProgress, stallTime);
-        this.useMovementStallProtection = true;
-        this.minimumMovement = minimumMovement;
-    }
-
     @Override
     public void initialize() {
         timer.reset();
         stallTimer.reset();
         bestProgress = 0;
-        stallProtectionArmed = false;
         follower.followPath(pathChain);
     }
 
@@ -81,25 +63,6 @@ public class AutoDriveCommand extends CommandBase {
         double currentProgress = follower.getCurrentTValue();
         if (currentProgress > bestProgress + MIN_PROGRESS_DELTA) {
             bestProgress = currentProgress;
-            if (!useMovementStallProtection) {
-                stallTimer.reset();
-            }
-        }
-
-        if (!useMovementStallProtection || bestProgress < minimumProgress) {
-            return;
-        }
-
-        double currentX = follower.getPose().getX();
-        double currentY = follower.getPose().getY();
-        if (!stallProtectionArmed) {
-            lastMovementX = currentX;
-            lastMovementY = currentY;
-            stallProtectionArmed = true;
-            stallTimer.reset();
-        } else if (Math.hypot(currentX - lastMovementX, currentY - lastMovementY) >= minimumMovement) {
-            lastMovementX = currentX;
-            lastMovementY = currentY;
             stallTimer.reset();
         }
     }
@@ -113,7 +76,6 @@ public class AutoDriveCommand extends CommandBase {
     public boolean isFinished() {
         boolean stalledNearEnd = useStallProtection
                 && bestProgress >= minimumProgress
-                && (!useMovementStallProtection || stallProtectionArmed)
                 && stallTimer.milliseconds() >= stallTime;
         return !follower.isBusy() || stalledNearEnd || timer.milliseconds() >= waitTime;
     }
